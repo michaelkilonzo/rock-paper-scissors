@@ -75,7 +75,8 @@ function playRound(humanChoice) {
     const computerChoice = getComputerChoice();
     console.log(`You chose: ${humanChoice}, Computer chose: ${computerChoice}`);
 
-    let roundMessage = `You chose ${humanChoice}. Computer chose ${computerChoice}.`;
+    let roundMessage = `You chose <strong>${humanChoice}</strong>. Computer chose <strong>${computerChoice}</strong><br>`;
+
 
     if (humanChoice === computerChoice) {
         roundMessage += " It's a tie!";
@@ -92,7 +93,7 @@ function playRound(humanChoice) {
     }
 
     updateScores();
-    gameMessageElement.textContent = roundMessage;
+    gameMessageElement.innerHTML = roundMessage;
 
     currentRound++;
     if (currentRound < totalRounds) {

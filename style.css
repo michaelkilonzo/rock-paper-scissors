@@ -3,7 +3,6 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
-    white-space: pre-line;
 }
 
 body {
@@ -21,6 +20,7 @@ body {
 
 .container-human, .container-computer{
     display: flex;
+    flex: 1;
     flex-direction: column;
     text-align: center;
 }
@@ -49,42 +49,28 @@ footer {
 .choices-container {
     display: flex;
     flex-direction: row;
-    padding: 15px;
-    gap: 15px;
+    justify-content: space-evenly;
 }
-
-/* .choices-container > .choice {
-    width: 80px;
-    height: 40px;
-    border-radius: 5px;
-    border: 1px solid;
-} */
 
 .message-container {
-    display: flex;
-    justify-content: center;
+    text-align: center;
     font-size: 3vh;
-    padding: 15px;
 }
-
-/* #startButton {
-    width: 20vw;
-    height: 8vh;
-    font-size: 15px;
-    border-radius: 7px;
-    background-color: blue;
-    color: white;
-} */
 
 .choice {
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 14px;
     background-color: #f2f2f2;
     color: black;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     margin-right: 10px;
+    width: 100px;
+    align-items: center;
+    justify-content: center;
+    text-align: center
+
 }
 
 .choice:hover {
@@ -99,8 +85,13 @@ footer {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    text-align: center
 }
 
 #startButton:hover {
     background-color: #45a049;
 }
+
+
