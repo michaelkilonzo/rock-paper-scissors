@@ -1,89 +1,120 @@
-const startButton = document.querySelector('#startButton');
-startButton.addEventListener("click", startGame);
+const startButton = document.querySelector("#startButton");
+const choicesButtons = document.querySelectorAll(".choice");
+const humanScoreElement = document.getElementById("human-score");
+const computerScoreElement = document.getElementById("computer-score");
+const gameMessageElement = document.getElementById("gameMessage");
+const roundNumberElement = document.getElementById("roundNumber");
 
 let humanScore = 0;
 let computerScore = 0;
+let currentRound = 0;
+let totalRounds = 0;
+let gameStarted = false;
+
+startButton.addEventListener("click", startGame);
+
+choicesButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+        if (gameStarted) {
+            const humanChoice = button.id.split("-")[0]; // Extract choice from button ID
+            playRound(humanChoice);
+        }
+    });
+});
 
 function startGame() {
-    // Reset scores
-    updateScores(0, 0);
+    if (!gameStarted) {
+        // Reset scores and variables
+        humanScore = 0;
+        computerScore = 0;
+        currentRound = 0;
+        gameStarted = true;
 
-    // Get the number of rounds
-    let rounds = prompt("How many rounds would you like to play?");
-    while (rounds < 0 || isNaN(rounds)) {
-        rounds = prompt("Invalid number of rounds. Please enter a positive number.");
-    }
-    playGame(rounds);
-}
-
-function playGame(rounds) {
-    let currentRound = 0;
-
-    function playNextRound() {
-        if (currentRound < rounds) {
-            document.getElementById('roundNumber').textContent = "ROUND: " + (currentRound + 1) + "/" + rounds;
-
-            const humanChoice = getHumanChoice();
-            const computerChoice = getComputerChoice();
-
-            playRound(humanChoice, computerChoice, currentRound + 1);
-            currentRound++;
-
-            setTimeout(playNextRound, 1); // Wait before the next round for DOM updates 
-        } else {
-            displayFinalResult();
+        // Get total rounds
+        const rounds = parseInt(prompt("How many rounds would you like to play?"), 10);
+        if (!rounds || rounds <= 0) {
+            alert("Please enter a valid number of rounds.");
+            resetGame();
+            return;
         }
-    }
+        totalRounds = rounds;
 
-    playNextRound(); // Start round
+        // Update UI
+        updateScores();
+        gameMessageElement.textContent = "Game started! Make your choice.";
+        roundNumberElement.textContent = `ROUND: 1/${totalRounds}`;
+        startButton.textContent = "Reset Game";
+    } else {
+        resetGame();
+    }
 }
 
-function getHumanChoice() {
-    let choice = prompt('Human, enter your choice (rock, paper, or scissors):').toLowerCase();
-    while (!['rock', 'paper', 'scissors'].includes(choice)) {
-        choice = prompt('Invalid entry. Please enter rock, paper, or scissors:').toLowerCase();
-    }
-    return choice;
+function resetGame() {
+    // Reset scores and variables
+    humanScore = 0;
+    computerScore = 0;
+    currentRound = 0;
+    totalRounds = 0;
+    gameStarted = false;
+
+    // Update UI
+    updateScores();
+    gameMessageElement.textContent = "";
+    roundNumberElement.textContent = "Start game to begin!";
+    startButton.textContent = "Start Game";
 }
 
 function getComputerChoice() {
-    const choices = ['rock', 'paper', 'scissors'];
+    const choices = ["rock", "paper", "scissors"];
     return choices[Math.floor(Math.random() * choices.length)];
 }
 
-function playRound(humanChoice, computerChoice, roundNumber) {
+function playRound(humanChoice) {
+    if (currentRound > totalRounds) return;
+
+    const computerChoice = getComputerChoice();
     console.log(`You chose: ${humanChoice}, Computer chose: ${computerChoice}`);
 
+    let roundMessage = `You chose ${humanChoice}. Computer chose ${computerChoice}.`;
+
     if (humanChoice === computerChoice) {
-        console.log(`Round ${roundNumber}: It's a tie!`);
-        humanScore++;
-        computerScore++;
+        roundMessage += " It's a tie!";
     } else if (
-        (humanChoice === 'rock' && computerChoice === 'scissors') ||
-        (humanChoice === 'paper' && computerChoice === 'rock') ||
-        (humanChoice === 'scissors' && computerChoice === 'paper')
+        (humanChoice === "rock" && computerChoice === "scissors") ||
+        (humanChoice === "paper" && computerChoice === "rock") ||
+        (humanChoice === "scissors" && computerChoice === "paper")
     ) {
-        console.log(`Round ${roundNumber}: You win this round!`);
         humanScore++;
+        roundMessage += " You win this round!";
     } else {
-        console.log(`Round ${roundNumber}: You lose this round!`);
         computerScore++;
+        roundMessage += " You lose this round.";
     }
-    updateScores(humanScore, computerScore);
+
+    updateScores();
+    gameMessageElement.textContent = roundMessage;
+
+    currentRound++;
+    if (currentRound < totalRounds) {
+        roundNumberElement.textContent = `ROUND: ${currentRound + 1}/${totalRounds}`;
+    } else {
+        displayFinalResult();
+        gameStarted = false;
+        startButton.textContent = "Start Game";
+    }
 }
 
-function updateScores(human, computer) {
-    document.getElementById('human-score').textContent = human;
-    document.getElementById('computer-score').textContent = computer;
+function updateScores() {
+    humanScoreElement.textContent = humanScore;
+    computerScoreElement.textContent = computerScore;
 }
 
 function displayFinalResult() {
-    console.log(`> FINAL SCORE - Human: ${humanScore}, Computer: ${computerScore}`);
     if (humanScore > computerScore) {
-        alert("Game over. Congratulations, you won! 🎉");
+        gameMessageElement.textContent = "Game over. Congratulations, you win! 🎉";
     } else if (humanScore < computerScore) {
-        alert("Game over. You lost. 😩");
+        gameMessageElement.textContent = "Game over. You lose. 😩";
     } else {
-        alert("Game over. It's a tie! 👔");
+        gameMessageElement.textContent = "Game over. It's a tie! 👔";
     }
 }

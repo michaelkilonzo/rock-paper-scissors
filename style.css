@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
+    white-space: pre-line;
 }
 
 body {
@@ -45,9 +46,61 @@ header {
 footer {
     min-height: 8vh;
 }
+.choices-container {
+    display: flex;
+    flex-direction: row;
+    padding: 15px;
+    gap: 15px;
+}
+
+/* .choices-container > .choice {
+    width: 80px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid;
+} */
+
+.message-container {
+    display: flex;
+    justify-content: center;
+    font-size: 3vh;
+    padding: 15px;
+}
+
+/* #startButton {
+    width: 20vw;
+    height: 8vh;
+    font-size: 15px;
+    border-radius: 7px;
+    background-color: blue;
+    color: white;
+} */
+
+.choice {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #f2f2f2;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.choice:hover {
+    background-color: #e6e6e6;
+}
 
 #startButton {
-    width: 15vw;
-    height: 3vh;
-    font-size: 15px;
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#startButton:hover {
+    background-color: #45a049;
 }
