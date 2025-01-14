@@ -1,5 +1,5 @@
 
-# Rock - Paper - Scissors Game
+# Rock, Paper, Scissors Game
 
 ## Overview
 This is a simple Rock, Paper, Scissors game where you can play against the computer. The game tracks your score and the computer's score over multiple rounds. You can choose to play a custom number of rounds. After all rounds are finished, the winner is displayed.
